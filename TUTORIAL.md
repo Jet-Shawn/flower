@@ -104,24 +104,21 @@ Once you find a flower you like:
 
 **Example prompt:**
 
-> Turn this into an exotic flower. Stick to the structure I am providing you. Don't leave the confines of the computer-generated image I am providing you, but make it look tropical photorealistic.
+> Example prompt: “Turn this into a photorealistic exotic flower. Make it look like it grew in a lush tropical rainforest”
+>
+> Example prompt: “Make this into a photorealistic arctic flower.”
 
-Feel free to be creative with your prompt — try different styles and see what happens.
+Feel free to be creative with your prompt — try different styles and see what happens but always remember a consistent prompt as part of the whole prompt: "Make this into a photorealistic".
 
-Your generated images are automatically saved to the `MemoryGarden/` folder.
+Your generated images are automatically saved to the `MemoryGarden/` folder. Take sometime to make 3-5 images and look at them carefully.
 
 ---
 
 ## Step 7 — Submit
 
-1. Find your 5 generated images in the `MemoryGarden/` folder.
-2. **Rename each file with your full name and a number** — for example:
-   - `John_Smith_1.png`
-   - `John_Smith_2.png`
-   - `John_Smith_3.png`
-   - `John_Smith_4.png`
-   - `John_Smith_5.png`
-3. Upload all 5 images to the shared Google Drive folder: https://drive.google.com/drive/folders/1wCa1v2l9Q7qvPiXCMJVWwtCFwCMVwOcZ
+1. Find your 3-5 generated images in the `MemoryGarden/` folder.
+2. **Rename each file with your full name and a number** — for example: `John_Smith.png`
+3. Upload 1 image you like to the shared Google Drive folder: https://drive.google.com/drive/folders/1wCa1v2l9Q7qvPiXCMJVWwtCFwCMVwOcZ
 
 ---
 
