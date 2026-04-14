@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Garden</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #f5f1e8;
+      color: #3a3530;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 32px 24px;
+      gap: 32px;
+      min-height: 100vh;
+    }
+
+    /* ── Canvas ─────────────────────────────────────────────── */
+    #canvas-container {
+      flex-shrink: 0;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06);
+    }
+    #canvas-container canvas { display: block; }
+
+    /* ── Controls panel ─────────────────────────────────────── */
+    #controls {
+      width: 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 500;
+      color: #a09585;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    /* ── Student selector ───────────────────────────────────── */
+    .student-row {
+      display: flex;
+      gap: 6px;
+    }
+    .student-row select {
+      flex: 1;
+      min-width: 0;
+    }
+    #btn-load-student {
+      padding: 0 14px;
+      background: #5c5347;
+      color: #f5f1e8;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    #btn-load-student:hover { background: #4a4239; }
+    #btn-load-student:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    #student-status {
+      font-size: 11px;
+      color: #a09585;
+      min-height: 16px;
+    }
+
+    /* ── Shared form elements ───────────────────────────────── */
+    select, input[type="text"] {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #d8d1c6;
+      border-radius: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      background: #fff;
+      color: #3a3530;
+      transition: border-color 0.2s;
+    }
+    select:focus, input[type="text"]:focus {
+      outline: none;
+      border-color: #a09585;
+    }
+    input[type="text"]::placeholder { color: #c4bbb0; }
+
+    /* ── Feature bars ───────────────────────────────────────── */
+    .feat-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .feat-row label {
+      font-size: 11px;
+      font-weight: 400;
+      color: #7a7066;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .feat-val {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #5c5347;
+      min-width: 36px;
+      text-align: right;
+    }
+    .feat-bar {
+      width: 100%;
+      height: 4px;
+      background: #e8e2d8;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .feat-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #b8a48a, #8a7560);
+      border-radius: 2px;
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ── Divider ────────────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: #e4ddd3;
+    }
+
+    /* ── Generate button ────────────────────────────────────── */
+    #btn-generate {
+      width: 100%;
+      padding: 12px;
+      background: #5c5347;
+      color: #f5f1e8;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: background 0.2s;
+    }
+    #btn-generate:hover { background: #4a4239; }
+    #btn-generate:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    #status {
+      font-size: 11px;
+      color: #a09585;
+      min-height: 16px;
+    }
+
+    /* ── Result ──────────────────────────────────────────────── */
+    #result-container {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+    }
+    #result-container.visible { display: flex; }
+    #result-container img {
+      width: 100%;
+      border-radius: 6px;
+    }
+    #result-filename {
+      font-size: 10px;
+      color: #b0a898;
+      text-align: center;
+    }
+
+    /* ── Keyboard hints ─────────────────────────────────────── */
+    .shortcut-hint {
+      font-size: 10px;
+      color: #c4bbb0;
+      display: flex;
+      gap: 16px;
+    }
+    .shortcut-hint span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      background: #eae5db;
+      border: 1px solid #d8d1c6;
+      border-radius: 3px;
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      color: #7a7066;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="canvas-container" style="position:relative;">
+    <div class="shortcut-hint" style="position:absolute;bottom:12px;left:12px;">
+      <span><kbd>R</kbd> Shuffle memory</span>
+    </div>
+  </div>
+
+  <div id="controls">
+
+    <!-- Student selector -->
+    <div class="section">
+      <div class="section-label">Student</div>
+      <div class="student-row">
+        <select id="student-select">
+          <option value="">Current garden.json</option>
+        </select>
+        <button id="btn-load-student">Load</button>
+      </div>
+      <div id="student-status"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Emotional features (read-only) -->
+    <div class="section">
+      <div class="section-label">Emotional Features</div>
+
+      <div class="feat-row">
+        <label>Valence <span class="feat-val" id="val-valence">--</span></label>
+        <div class="feat-bar"><div class="feat-fill" id="bar-valence" style="width:50%"></div></div>
+      </div>
+      <div class="feat-row">
+        <label>Impact <span class="feat-val" id="val-impact">--</span></label>
+        <div class="feat-bar"><div class="feat-fill" id="bar-impact" style="width:50%"></div></div>
+      </div>
+      <div class="feat-row">
+        <label>Togetherness <span class="feat-val" id="val-togetherness">--</span></label>
+        <div class="feat-bar"><div class="feat-fill" id="bar-togetherness" style="width:50%"></div></div>
+      </div>
+      <div class="feat-row">
+        <label>Motion <span class="feat-val" id="val-motion">--</span></label>
+        <div class="feat-bar"><div class="feat-fill" id="bar-motion" style="width:50%"></div></div>
+      </div>
+      <div class="feat-row">
+        <label>Length <span class="feat-val" id="val-length">--</span></label>
+        <div class="feat-bar"><div class="feat-fill" id="bar-length" style="width:50%"></div></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- AI generation -->
+    <div class="section">
+      <div class="section-label">AI Generation</div>
+
+      <select id="export-mode">
+        <option value="head">Flower Head Only</option>
+        <option value="stem">With Stem</option>
+      </select>
+
+      <input type="text" id="prompt-input" placeholder="e.g. ink wash painting, watercolor...">
+
+      <button id="btn-generate">Generate with Nano Banana</button>
+
+      <div id="status"></div>
+    </div>
+
+    <!-- Result image -->
+    <div id="result-container">
+      <div class="section-label">Result</div>
+      <img id="result-img" alt="AI generated result">
+      <div id="result-filename"></div>
+    </div>
+
+  </div>
+
+  <script src="/static/sketch.js"></script>
+  <script>
+    // Update feature display bars
+    window._updateFeatureDisplay = function(feat) {
+      if (!feat) return;
+      const items = [
+        { key: "valence", min: -1, max: 1 },
+        { key: "impact", min: 0, max: 1 },
+        { key: "togetherness", min: 0, max: 1 },
+        { key: "motion", min: 0, max: 1 },
+        { key: "length", min: 0, max: 1 },
+      ];
+      items.forEach(({ key, min, max }) => {
+        let v = feat[key];
+        let valEl = document.getElementById("val-" + key);
+        let barEl = document.getElementById("bar-" + key);
+        if (valEl) valEl.textContent = v.toFixed(2);
+        if (barEl) barEl.style.width = (((v - min) / (max - min)) * 100) + "%";
+      });
+    };
+
+    // Wire up generate button
+    document.getElementById("btn-generate").addEventListener("click", async () => {
+      let prompt = document.getElementById("prompt-input").value.trim();
+      if (!prompt) {
+        document.getElementById("status").textContent = "Please enter a prompt.";
+        return;
+      }
+
+      let mode = document.getElementById("export-mode").value;
+      let btn = document.getElementById("btn-generate");
+      let statusEl = document.getElementById("status");
+
+      btn.disabled = true;
+      statusEl.textContent = "Capturing flower...";
+
+      let b64 = exportFlowerBase64(mode);
+      if (!b64) {
+        statusEl.textContent = "No flower to capture.";
+        btn.disabled = false;
+        return;
+      }
+
+      statusEl.textContent = "Sending to Nano Banana Pro... (10-30s)";
+
+      try {
+        let resp = await fetch("/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ image: b64, prompt: prompt }),
+        });
+        let data = await resp.json();
+
+        if (data.error) {
+          statusEl.textContent = "Error: " + data.error;
+        } else {
+          statusEl.textContent = "Saved: " + data.filename;
+          document.getElementById("result-container").classList.add("visible");
+          document.getElementById("result-img").src = data.image;
+          document.getElementById("result-filename").textContent = data.filename;
+        }
+      } catch (err) {
+        statusEl.textContent = "Network error: " + err.message;
+      }
+
+      btn.disabled = false;
+    });
+
+    // Populate student dropdown
+    fetch("/api/students").then(r => r.json()).then(students => {
+      let sel = document.getElementById("student-select");
+      students.forEach(name => {
+        let opt = document.createElement("option");
+        opt.value = name;
+        opt.textContent = name;
+        sel.appendChild(opt);
+      });
+    });
+
+    // Load student memories via LLM
+    document.getElementById("btn-load-student").addEventListener("click", async () => {
+      let student = document.getElementById("student-select").value;
+      if (!student) {
+        document.getElementById("student-status").textContent = "Please select a student.";
+        return;
+      }
+
+      let btn = document.getElementById("btn-load-student");
+      let statusEl = document.getElementById("student-status");
+      btn.disabled = true;
+      statusEl.textContent = "Analyzing with DeepSeek V3.1...";
+
+      try {
+        let resp = await fetch("/api/process-memories", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ student: student }),
+        });
+        let data = await resp.json();
+
+        if (data.error) {
+          statusEl.textContent = "Error: " + data.error;
+        } else {
+          statusEl.textContent = data.all_clusters.length + " memories loaded";
+          gardenData = data;
+          centerName = data.center_name || "";
+          allClusters = data.all_clusters || [];
+          buildShuffleQueue();
+          loadCurrentPage();
+        }
+      } catch (err) {
+        statusEl.textContent = "Network error: " + err.message;
+      }
+
+      btn.disabled = false;
+    });
+  </script>
+</body>
+</html>

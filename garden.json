@@ -1,0 +1,44 @@
+{
+  "center_name": "Example Student",
+  "all_clusters": [
+    {
+      "theme": "Achievement",
+      "center": {
+        "memory": "Winning first place in a science competition",
+        "features": {
+          "valence": 1.0,
+          "impact": 0.8,
+          "togetherness": 0.0,
+          "motion": 0.0,
+          "length": 0.5
+        }
+      }
+    },
+    {
+      "theme": "Adventure",
+      "center": {
+        "memory": "Road trip across the countryside with friends",
+        "features": {
+          "valence": 0.8,
+          "impact": 0.4,
+          "togetherness": 1.0,
+          "motion": 1.0,
+          "length": 0.917
+        }
+      }
+    },
+    {
+      "theme": "Quiet Moment",
+      "center": {
+        "memory": "Sitting alone reading a book on a rainy afternoon",
+        "features": {
+          "valence": 0.3,
+          "impact": 0.2,
+          "togetherness": 0.0,
+          "motion": 0.0,
+          "length": 0.667
+        }
+      }
+    }
+  ]
+}

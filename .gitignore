@@ -1,0 +1,16 @@
+.env
+__pycache__/
+*.pyc
+.DS_Store
+
+# Student data (distributed via Canvas, not public)
+memories_of_your_class_only/
+
+# TA materials (not public)
+TA_SLIDES.md
+Memory Garden Tutorial.docx
+
+# Generated images (large files)
+MemoryGarden/nano-banana-*.png
+MemoryGarden/flower-head-*.png
+MemoryGarden/flower-stem-*.png
