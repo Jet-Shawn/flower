@@ -4,7 +4,19 @@ You'll be turning your personal memories into AI-generated flower art — all in
 
 ---
 
-## Step 0 — Install uv (one time only)
+## Step 0 — Download and open the project
+
+1. Go to the GitHub repository link provided by your TA.
+2. Click the green **Code** button, then click **Download ZIP**.
+3. Find the downloaded `.zip` file (usually in your `Downloads` folder) and **unzip** it.
+4. Open **Cursor** (our code editor for this workshop).
+5. In Cursor, go to **File → Open Folder** and select the unzipped project folder.
+
+> You should now see the project files (like `server.py`, `TUTORIAL.md`, etc.) in Cursor's sidebar.
+
+---
+
+## Step 1 — Install uv (one time only)
 
 **Mac (Terminal):**
 
@@ -28,24 +40,20 @@ uv --version
 
 ---
 
-## Step 1 — Set up your API key
+## Step 2 — Set up your API key
 
-Create a file called `.env` in the project folder with your Replicate API token:
-
-```
-REPLICATE_API_TOKEN=your_api_key_here
-```
-
-> Ask your TA for the workshop API key if you don't have one.
+1. In Cursor's sidebar, find the file called `.env.example` and right-click it, then select **Rename**.
+2. Rename it to `.env` (just remove the `.example` part).
+3. Open the `.env` file, replace `your_api_key_here` with the API key provided by your TA.
+4. Save the file (**Ctrl+S** on Windows / **Cmd+S** on Mac).
 
 ---
 
-## Step 2 — Start the Memory Garden
+## Step 3 — Start the Memory Garden
 
-Open your terminal, navigate to the project folder, and run:
+Open your terminal in cursor, navigate to the project folder, and run:
 
 ```bash
-cd <path-to-the-flower-folder>
 uv run --with flask --with replicate server.py
 ```
 
@@ -57,7 +65,7 @@ Your browser will automatically open **http://localhost:8080**. You should see a
 
 ---
 
-## Step 3 — Load your memories
+## Step 4 — Load your memories
 
 1. In the **Student Memory** dropdown at the top-right, find and select your name.
 2. Click **Load Student Memories**.
@@ -76,7 +84,7 @@ The **Emotional Features** panel shows the five dimensions that shape your flowe
 
 ---
 
-## Step 4 — Explore your flowers
+## Step 5 — Explore your flowers
 
 Press **R** on your keyboard (or refresh) to shuffle through your memories. Each memory produces a unique flower — the shape, color, and texture all come from the emotional analysis of that memory.
 
@@ -84,7 +92,7 @@ Take a moment to see how different memories create different flowers. A sad, int
 
 ---
 
-## Step 5 — Generate AI art
+## Step 6 — Generate AI art
 
 Once you find a flower you like:
 
@@ -104,11 +112,16 @@ Your generated images are automatically saved to the `MemoryGarden/` folder.
 
 ---
 
-## Step 6 — Submit
+## Step 7 — Submit
 
-1. Find your generated image in the `MemoryGarden/` folder (named `nano-banana-YYYYMMDD-HHMMSS.png`).
-2. **Rename the file after yourself** — good data discipline matters!
-3. Upload your final image to the shared Google Drive folder.
+1. Find your 5 generated images in the `MemoryGarden/` folder.
+2. **Rename each file with your full name and a number** — for example:
+   - `John_Smith_1.png`
+   - `John_Smith_2.png`
+   - `John_Smith_3.png`
+   - `John_Smith_4.png`
+   - `John_Smith_5.png`
+3. Upload all 5 images to the shared Google Drive folder: https://drive.google.com/drive/folders/1wCa1v2l9Q7qvPiXCMJVWwtCFwCMVwOcZ
 
 ---
 
